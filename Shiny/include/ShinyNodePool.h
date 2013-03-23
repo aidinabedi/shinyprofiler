@@ -27,7 +27,12 @@ THE SOFTWARE.
 
 #include "ShinyNode.h"
 
+
 #if SHINY_IS_COMPILED == TRUE
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 
 /*---------------------------------------------------------------------------*/
@@ -46,6 +51,7 @@ typedef struct _ShinyNodePool {
 
 /*---------------------------------------------------------------------------*/
 
+
 SHINY_INLINE ShinyNode* ShinyNodePool_firstItem(ShinyNodePool *self) {
 	return &(self->_items[0]);
 }
@@ -59,6 +65,10 @@ void ShinyNodePool_destroy(ShinyNodePool *self);
 
 uint32_t ShinyNodePool_memoryUsageChain(ShinyNodePool *first);
 
+
+#ifdef __cplusplus
+} /* end of extern "C" */
+#endif
 
 #endif /* if SHINY_IS_COMPILED == TRUE */
 

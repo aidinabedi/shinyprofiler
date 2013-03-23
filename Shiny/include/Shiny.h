@@ -27,15 +27,7 @@ THE SOFTWARE.
 
 /*---------------------------------------------------------------------------*/
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 #include "ShinyMacros.h"
 #include "ShinyManager.h"
-
-#ifdef __cplusplus
-}
-#endif
 
 #endif /* end of include guard */

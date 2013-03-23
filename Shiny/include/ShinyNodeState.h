@@ -27,7 +27,12 @@ THE SOFTWARE.
 
 #include "ShinyNode.h"
 
+
 #if SHINY_IS_COMPILED == TRUE
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 
 /*---------------------------------------------------------------------------*/
@@ -42,11 +47,17 @@ typedef struct _ShinyNodeState {
 
 /*---------------------------------------------------------------------------*/
 
+
 ShinyNodeState* ShinyNodeState_push(ShinyNodeState *a_top, ShinyNode *a_node);
 ShinyNodeState* ShinyNodeState_pop(ShinyNodeState *a_top);
 
 ShinyNode* ShinyNodeState_finishAndGetNext(ShinyNodeState *self, float a_damping);
 ShinyNode* ShinyNodeState_finishAndGetNextClean(ShinyNodeState *self);
+
+
+#ifdef __cplusplus
+} /* end of extern "C" */
+#endif
 
 #endif /* if SHINY_IS_COMPILED == TRUE */
 

@@ -28,7 +28,12 @@ THE SOFTWARE.
 #include "ShinyNode.h"
 #include "ShinyZone.h"
 
+
 #if SHINY_IS_COMPILED == TRUE
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 
 /*---------------------------------------------------------------------------*/
@@ -45,8 +50,11 @@ SHINY_API void ShinyPrintZones(char* output, const ShinyZone *a_root);
 
 /*---------------------------------------------------------------------------*/
 
-#if __cplusplus
+
+#ifdef __cplusplus
 } /* end of extern "C" */
+
+
 #include <string>
 
 SHINY_INLINE std::string ShinyNodesToString(const ShinyNode *a_root, uint32_t a_count) {
@@ -63,8 +71,8 @@ SHINY_INLINE std::string ShinyZonesToString(const ShinyZone *a_root, uint32_t a_
 	return str;
 }
 
-extern "C" { /* end of c++ */
-#endif
+
+#endif /* end of c++ */
 
 #endif /* if SHINY_IS_COMPILED == TRUE */
 

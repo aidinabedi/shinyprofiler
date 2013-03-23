@@ -29,6 +29,11 @@ THE SOFTWARE.
 #include "ShinyVersion.h"
 
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+
 /*---------------------------------------------------------------------------*/
 
 #define SHINY_PLATFORM_WIN32	0x1
@@ -46,12 +51,12 @@ THE SOFTWARE.
 
 #define SHINY_COMPILER_MSVC		0x1
 #define SHINY_COMPILER_GNUC		0x2
-#define SHINY_COMPILER_OTHER	0x3
+#define SHINY_COMPILER_OTHER		0x3
 
 #if defined (_MSC_VER)
 #   define SHINY_COMPILER	SHINY_COMPILER_MSVC
 
-#elif defined (__GNUG__)
+#elif defined (__GNUC__)
 #   define SHINY_COMPILER	SHINY_COMPILER_GNUC
 
 #else
@@ -124,19 +129,24 @@ THE SOFTWARE.
 /*---------------------------------------------------------------------------*/
 
 #if SHINY_COMPILER == SHINY_COMPILER_MSVC
-	typedef int					int32_t;
+	typedef int			int32_t;
 	typedef unsigned int		uint32_t;
 
-	typedef __int64				int64_t;
+	typedef __int64			int64_t;
 	typedef unsigned __int64	uint64_t;
 
 /*
 #elif defined(__CYGWIN__)
-	typedef u_int32_t			uint32_t;
-	typedef u_int64_t			uint64_t;
+	typedef u_int32_t		uint32_t;
+	typedef u_int64_t		uint64_t;
 */
 #endif
 
-	typedef uint64_t			shinytick_t;
+	typedef uint64_t		shinytick_t;
+
+
+#ifdef __cplusplus
+} /* end of extern "C" */
+#endif
 
 #endif /* end of include guard */

@@ -29,6 +29,7 @@ extern "C" {
 #include "lauxlib.h"
 }
 
+#include <stdlib.h>
 #include <stdio.h>
 #include <stdarg.h>
 
@@ -37,15 +38,15 @@ extern "C" {
 
 // Note - not in the original STL, but exists in SGI STL and STLport
 #if (SHINY_COMPILER == SHINY_COMPILER_GNUC) && !defined(STLPORT)
-#   include <ext/hash_map>
-#   include <ext/hash_set>
+#   include <tr1/unordered_map>
+#   include <tr1/unordered_set>
 #else
 #   include <hash_set>
 #   include <hash_map>
 #endif
 
 #if SHINY_COMPILER == SHINY_COMPILER_GNUC && __GNUC__ >= 3 && __GNUC_MINOR__ >= 1 && !defined(STLPORT)
-#   define HASHMAP ::__gnu_cxx::hash_map
+#   define HASHMAP std::tr1::unordered_map
 #else
 #   if SHINY_COMPILER == SHINY_COMPILER_MSVC
 #       if _MSC_VER > 1300 && !defined(_STLP_MSVC)
