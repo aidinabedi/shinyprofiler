@@ -28,6 +28,11 @@ THE SOFTWARE.
 #include "ShinyPrereqs.h"
 
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+
 /*---------------------------------------------------------------------------*/
 
 typedef struct {
@@ -53,6 +58,7 @@ typedef struct {
 	ShinyTickData selfTicks;
 	ShinyTickData childTicks;
 } ShinyData;
+
 
 SHINY_INLINE shinytick_t ShinyData_totalTicksCur(const ShinyData *self) {
 	return self->selfTicks.cur + self->childTicks.cur;
@@ -91,5 +97,10 @@ SHINY_INLINE void ShinyData_clearCurrent(ShinyData *self) {
 	self->selfTicks.cur = 0;
 	self->childTicks.cur = 0;
 }
+
+
+#ifdef __cplusplus
+} /* end of extern "C" */
+#endif
 
 #endif /* end of include guard */

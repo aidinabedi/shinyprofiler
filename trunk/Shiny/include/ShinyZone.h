@@ -28,13 +28,18 @@ THE SOFTWARE.
 #include "ShinyData.h"
 #include <memory.h>
 
+
 #if SHINY_IS_COMPILED == TRUE
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 
 /*---------------------------------------------------------------------------*/
 
 #define SHINY_ZONE_STATE_HIDDEN			0
-#define SHINY_ZONE_STATE_INITIALIZED	1
+#define SHINY_ZONE_STATE_INITIALIZED		1
 #define SHINY_ZONE_STATE_UPDATING		2
 
 
@@ -49,6 +54,7 @@ typedef struct _ShinyZone {
 
 
 /*---------------------------------------------------------------------------*/
+
 
 SHINY_INLINE void ShinyZone_init(ShinyZone *self, ShinyZone* a_prev) {
 	self->_state = SHINY_ZONE_STATE_INITIALIZED;
@@ -76,8 +82,10 @@ SHINY_API void ShinyZone_clear(ShinyZone* self);
 
 SHINY_API void ShinyZone_enumerateZones(const ShinyZone* a_zone, void (*a_func)(const ShinyZone*));
 
-#if __cplusplus
+
+#ifdef __cplusplus
 } /* end of extern "C" */
+
 
 template <class T>
 void ShinyZone_enumerateZones(const ShinyZone* a_zone, T* a_this, void (T::*a_func)(const ShinyZone*)) {
@@ -86,8 +94,8 @@ void ShinyZone_enumerateZones(const ShinyZone* a_zone, T* a_this, void (T::*a_fu
 	if (a_zone->next) ShinyZone_enumerateZones(a_zone->next, a_this, a_func);
 }
 
-extern "C" { /* end of c++ */
-#endif
+
+#endif /* end of c++ */
 
 #endif /* if SHINY_IS_COMPILED == TRUE */
 

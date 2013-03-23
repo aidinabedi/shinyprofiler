@@ -33,7 +33,12 @@ THE SOFTWARE.
 
 #include <stdio.h>
 
+
 #if SHINY_IS_COMPILED == TRUE
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 
 /*---------------------------------------------------------------------------*/
@@ -84,6 +89,7 @@ extern ShinyManager Shiny_instance;
 
 
 /*---------------------------------------------------------------------------*/
+
 
 SHINY_INLINE void _ShinyManager_appendTicksToCurNode(ShinyManager *self) {
 	shinytick_t curTick;
@@ -190,8 +196,10 @@ SHINY_API const char* ShinyManager_getOutputErrorString(ShinyManager *self);
 SHINY_API int ShinyManager_output(ShinyManager *self, const char *a_filename);
 SHINY_API void ShinyManager_outputToStream(ShinyManager *self, FILE *stream);
 
-#if __cplusplus
+
+#ifdef __cplusplus
 } /* end of extern "C" */
+
 
 SHINY_INLINE std::string ShinyManager_outputTreeToString(ShinyManager *self) {
 	const char* error = ShinyManager_getOutputErrorString(self);
@@ -207,8 +215,10 @@ SHINY_INLINE std::string ShinyManager_outputFlatToString(ShinyManager *self) {
 	return ShinyZonesToString(&self->rootZone, self->zoneCount);
 }
 
+
 extern "C" { /* end of c++ */
 #endif
+
 
 SHINY_INLINE int ShinyManager_isZoneSelfTimeBelow(ShinyManager *self, ShinyZone* a_zone, float a_percentage) {
 	return a_percentage * (float) self->rootZone.data.childTicks.cur
@@ -230,8 +240,10 @@ SHINY_INLINE void ShinyManager_enumerateZones(ShinyManager *self, void (*a_func)
 	ShinyZone_enumerateZones(&self->rootZone, a_func);
 }
 
-#if __cplusplus
+
+#ifdef __cplusplus
 } /* end of extern "C" */
+
 
 template <class T> void ShinyManager_enumerateNodes(ShinyManager *self, T* a_this, void (T::*a_func)(const ShinyNode*)) {
 	ShinyNode_enumerateNodes(&self->rootNode, a_this, a_func);
@@ -241,14 +253,17 @@ template <class T> void ShinyManager_enumerateZones(ShinyManager *self, T* a_thi
 	ShinyZone_enumerateZones(&self->rootZone, a_this, a_func);
 }
 
+
 extern "C" { /* end of c++ */
 #endif
 
 
 /*---------------------------------------------------------------------------*/
 
-#if __cplusplus
+
+#ifdef __cplusplus
 } /* end of extern "C" */
+
 
 class ShinyEndNodeOnDestruction {
 public:
@@ -258,9 +273,8 @@ public:
 	}
 };
 
-extern "C" { /* end of c++ */
-#endif
 
+#endif /* end of c++ */
 
 #endif /* if SHINY_IS_COMPILED == TRUE */
 

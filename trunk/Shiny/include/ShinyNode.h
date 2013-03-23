@@ -28,7 +28,12 @@ THE SOFTWARE.
 #include "ShinyData.h"
 #include "ShinyTools.h"
 
+
 #if SHINY_IS_COMPILED == TRUE
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 
 /*---------------------------------------------------------------------------*/
@@ -60,6 +65,7 @@ extern ShinyNode _ShinyNode_dummy;
 
 
 /*---------------------------------------------------------------------------*/
+
 
 SHINY_INLINE void ShinyNode_addChild(ShinyNode* self,  ShinyNode* a_child) {
 	if (self->childCount++) {
@@ -117,8 +123,10 @@ SHINY_API void ShinyNode_clear(ShinyNode* self);
 
 SHINY_API void ShinyNode_enumerateNodes(const ShinyNode* a_node, void (*a_func)(const ShinyNode*));
 
-#if __cplusplus
+
+#ifdef __cplusplus
 } /* end of extern "C" */
+
 
 template <class T>
 void ShinyNode_enumerateNodes(const ShinyNode* a_node, T* a_this, void (T::*a_func)(const ShinyNode*)) {
@@ -128,8 +136,8 @@ void ShinyNode_enumerateNodes(const ShinyNode* a_node, T* a_this, void (T::*a_fu
 	if (a_node->nextSibling) ShinyNode_enumerateNodes(a_node->nextSibling, a_this, a_func);
 }
 
-extern "C" { /* end of c++ */
-#endif
+
+#endif /* end of c++ */
 
 #endif /* if SHINY_IS_COMPILED == TRUE */
 

@@ -27,6 +27,11 @@ THE SOFTWARE.
 
 #include "ShinyManager.h"
 
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #if SHINY_IS_COMPILED == TRUE
 
 
@@ -287,6 +292,10 @@ SHINY_INLINE ShinyData GetEmptyData() {
 #define PROFILE_SET_ENABLED(boolean)
 #endif
 
+#endif /* #if SHINY_IS_COMPILED == TRUE */
+
+#ifdef __cplusplus
+} /* end of extern "C" */
 #endif
 
 #endif /* end of include guard */
