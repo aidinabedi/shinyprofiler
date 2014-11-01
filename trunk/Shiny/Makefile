@@ -3,22 +3,21 @@
 #
 # By default libShiny.a will be compiled with g++ C++ compiler. If you prefer
 # or need a plain C version use the 'cclib' target. The C compiled lib should
-# be compatible to C AND C++ code according to ISO C99 and ISO C++98 (or
+# be compatible to C AND C++ code conforming to ISO C99 and ISO C++98 (or
 # later).
 #
-# To build Shiny as a static C++ lib use:
-#
-# make
-#
-# To build it as a static C lib (ISO C99) use:
-#
-# make cclib
-#
-# For building libs including more debug support use:
-#
-# make cxxdebug
+# To build Shiny as a static C++ library use:
+# $ make
 # or
-# make ccdebug
+# $ make shiny-cxx
+#
+# To build it as a static C library (ISO C99) use:
+# $ make shiny-c
+#
+# For building either library including debug symbols use:
+# $ make debug-cxx
+# or
+# $ make debug-c
 #
 # If you experience incompatibilities please feel free to tailor this makefile
 # to your needs and report problems here:
@@ -36,31 +35,38 @@ LIB_PATH_DEBUG	= lib/debug
 
 ##################
 # Compiler options
-FLAGS		= -g -O3 -fPIC -Wall
+CFLAGS		= -std=c99
+CXXFLAGS	= -std=c++98
+CCFLAGS_RELEASE	= -O3 -fPIC -Wall -Wpedantic
+CCFLAGS_DEBUG	= -g3 -O0 -Wall -Wpedantic
 INCLUDE		= -Iinclude
 
 # C options
-cclib ccdebug: CCOMP = $(CC)
-cclib: FLAGS += -std=c99
+shiny-c debug-c: CCOMP = $(CC)
+shiny-c: CCFLAGS = $(CCFLAGS_RELEASE) $(CFLAGS)
+debug-c: CCFLAGS = $(CCFLAGS_DEBUG) $(CFLAGS)
 
 # C++ options
-cxxlib cxxdebug: CCOMP = $(CXX)
-
-# Debug options
-ccdebug cxxdebug: FLAGS = -g -ggdb3 -O0 -Wall
-ccdebug cxxdebug: LIB_PATH = $(LIB_PATH_DEBUG)
+shiny-cxx debug-cxx: CCOMP = $(CXX)
+shiny-cxx: CCFLAGS = $(CCFLAGS_RELEASE) $(CXXFLAGS)
+debug-cxx: CCFLAGS = $(CCFLAGS_DEBUG) $(CXXFLAGS)
 
 
 ##################
 # Target definitions
 
-# All target builds static C++ lib
-all: cxxlib
+# Default target builds static C++ lib
+all: shiny-cxx
 
-# Copy static lib into lib/ or lib/debug
-cclib cxxlib ccdebug cxxdebug: $(LIB_NAME)
+# Copy release build to lib/
+shiny-c shiny-cxx: clean $(LIB_NAME)
 	mkdir -p $(LIB_PATH)
-	mv $^ $(LIB_PATH)
+	mv $(LIB_NAME) $(LIB_PATH)
+
+# Copy debug build to lib/debug/
+debug-c debug-cxx: clean $(LIB_NAME)
+	mkdir -p $(LIB_PATH_DEBUG)
+	mv $(LIB_NAME) $(LIB_PATH_DEBUG)
 
 # Build static lib in either C or C++
 $(LIB_NAME): $(OBJS)
@@ -68,7 +74,7 @@ $(LIB_NAME): $(OBJS)
 
 # Create object files from source code
 .c.o:
-	$(CCOMP) $(FLAGS) $(INCLUDE) -c $< -o $@
+	$(CCOMP) $(CCFLAGS) $(INCLUDE) -c $< -o $@
 
 
 # Remove temporary files and compilation results
@@ -78,12 +84,13 @@ clean:
 
 help:
 	@echo "Available targets for Shiny"
-	@echo " cxxlib: Build static library libShiny.a using C++ compiler"
-	@echo " cclib: Build static library libShiny.a using C compiler"
+	@echo " all: Build static library libShiny.a using C++ compiler"
+	@echo " shiny-cxx: Build static library libShiny.a using C++ compiler"
+	@echo " shiny-c: Build static library libShiny.a using C compiler"
 	@echo ""
-	@echo " cxxdebug: Build static library libShiny.a with debug symbols using C++ compiler"
-	@echo " ccdebug: Build static library libShiny.a with debug symbols using C compiler"
+	@echo " debug-cxx: Build static library libShiny.a with debug symbols using C++ compiler"
+	@echo " debug-c: Build static library libShiny.a with debug symbols using C compiler"
 	@echo ""
 	@echo " clean: Clean up directories"
 
-.PHONY: all cclib cxxlib ccdebug cxxdebug help clean
+.PHONY: all shiny-c shiny-cxx debug-c debug-cxx help clean
